@@ -1,16 +1,18 @@
 import React, {useCallback, useEffect} from 'react';
-import {CircularProgress, Fab, Grid, Typography} from '@mui/material';
+import {CircularProgress, Divider, Fab, Grid, Typography} from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
-import {selectBoards, selectFetchLoading, showModal} from '../../store/boardSlice';
-import {fetchBoard} from '../../store/boardThunks';
+import {hideModal, selectBoards, selectCreateLoading, selectFetchLoading, showModal} from '../../store/boardSlice';
+import {createBoard, fetchBoard} from '../../store/boardThunks';
 import BoardItem from './BoardItem';
 import BoardModal from './BoardModal';
+import {BoardMutation} from '../../types';
 
 const BoardList: React.FC = () => {
   const dispatch = useAppDispatch();
   const boards = useAppSelector(selectBoards);
   const isLoading = useAppSelector(selectFetchLoading);
+  const isCreating = useAppSelector(selectCreateLoading);
   
   const openModal = useCallback(() => {
     dispatch(showModal());
@@ -21,6 +23,12 @@ const BoardList: React.FC = () => {
     dispatch(fetchBoard());
   }, [dispatch]);
   
+  
+  const onSubmit = async (board: BoardMutation) => {
+    await dispatch(createBoard(board));
+    await dispatch(fetchBoard());
+    dispatch(hideModal());
+  };
   
   let content: React.ReactNode = <CircularProgress/>;
   
@@ -34,7 +42,7 @@ const BoardList: React.FC = () => {
   
   return (
     <Grid container direction="column" spacing={2}>
-      <Grid item container justifyContent="space-between" alignItems="center">
+      <Grid item container justifyContent="space-between" alignItems="center" sx={{marginBottom: 4, marginTop: 4}}>
         <Grid item>
           <Typography variant="h4">Image boards</Typography>
         </Grid>
@@ -44,11 +52,14 @@ const BoardList: React.FC = () => {
           </Fab>
         </Grid>
       </Grid>
-      
+      <Divider sx={{marginBottom: 4}}/>
       <Grid item container spacing={2}>
         {content}
       </Grid>
-      <BoardModal/>
+      <BoardModal
+        onSubmit={onSubmit}
+        isLoading={isCreating}
+      />
     </Grid>
   );
 };

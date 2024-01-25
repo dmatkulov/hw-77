@@ -6,7 +6,19 @@ import {routes} from '../api';
 export const createBoard = createAsyncThunk<void, BoardMutation>(
   'board/create',
   async (board) => {
-    await axiosApi.post(routes.boards, board);
+    const formData = new FormData();
+    
+    formData.append('message', board.message);
+    
+    if (board.author) {
+      formData.append('author', board.author);
+    }
+    
+    if (board.image) {
+      formData.append('image', board.image);
+    }
+    
+    await axiosApi.post(routes.boards, formData);
   }
 );
 
