@@ -1,9 +1,12 @@
+import Layout from './components/Layout/Layout';
+import BoardList from './components/Boards/BoardList';
+
 function App() {
   return (
     <>
-      <div>
-        Main page
-      </div>
+      <Layout>
+        <BoardList/>
+      </Layout>
     </>
   );
 }

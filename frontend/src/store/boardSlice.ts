@@ -1,4 +1,4 @@
-import {Board} from '../../types';
+import {Board} from '../types';
 import {createSlice} from '@reduxjs/toolkit';
 import {createBoard, fetchBoard} from './boardThunks';
 import {RootState} from '../app/store';
@@ -51,3 +51,5 @@ export const {showModal, hideModal} = boardSlice.actions;
 export const boardReducer = boardSlice.reducer;
 export const selectBoards = (state: RootState) => state.boards.items;
 export const selectModal = (state: RootState) => state.boards.modalOpen;
+export const selectCreateLoading = (state: RootState) => state.boards.createLoading;
+export const selectFetchLoading = (state: RootState) => state.boards.fetchLoading;

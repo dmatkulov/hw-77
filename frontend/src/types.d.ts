@@ -1,6 +1,6 @@
 export interface Board {
   id: string;
-  author: string | null;
+  author: string;
   message: string;
   image: string | null;
 }

@@ -1,5 +1,5 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {Board, BoardMutation} from '../../types';
+import {Board, BoardMutation} from '../types';
 import axiosApi from '../axiosApi';
 import {routes} from '../api';
 
